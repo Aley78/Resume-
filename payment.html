@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - Resume Builder</title>
+    <style>
+        /* Reset and Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #1e3a8a;
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: #4ade80;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #4ade80;
+        }
+
+        .nav-btn {
+            background-color: #4ade80;
+            color: #1e3a8a;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        /* Payment Page Styles */
+        .payment-container {
+            padding: 3rem 0;
+        }
+
+        .payment-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .payment-header h1 {
+            font-size: 2rem;
+            color: #1e3a8a;
+        }
+
+        .payment-header p {
+            color: #64748b;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .payment-plans {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .plan-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+            transition: transform 0.3s, border-color 0.3s;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .plan-name {
+            font-size: 1.5rem;
+            color: #1e3a8a;
+            margin-bottom: 1rem;
+        }
+
+        .plan-price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1e3a8a;
+            margin-bottom: 1rem;
+        }
+
+        .plan-price span {
+            font-size: 1rem;
+            color: #64748b;
+        }
+
+        .plan-features {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .plan-features li {
+            margin-bottom: 0.5rem;
+            color: #4b5563;
+        }
+
+        .plan-selected {
+            border-color: #4ade80;
+            background-color: #f0fdf4;
+        }
+
+        .payment-form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .payment-form {
+            flex: 2;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .payment-summary {
+            flex: 1;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            align-self: flex-start;
+        }
+
+        .form-title {
+            font-size: 1.5rem;
+            color: #1e3a8a;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #1e3a8a;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .secure-notice {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: #f0fdf4;
+            padding: 0.75rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: #166534;
+        }
+
+        .secure-icon {
+            font-size: 1.2rem;
+        }
+
+        .summary-title {
+            font-size: 1.2rem;
+            color: #1e3a8a;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            color: #4b5563;
+        }
+
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            padding-top: 1rem;
+            margin-top: 1rem;
+            border-top: 1px solid #e2e8f0;
+            color: #1e3a8a;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .checkbox-group input {
+            margin-top: 0.3rem;
+        }
+
+        .checkbox-group label {
+            font-size: 0.9rem;
+            color: #4b5563;
+        }
+
+        .checkbox-group a {
+            color: #1e3a8a;
+            text-decoration: none;
+        }
+
+        .btn-payment {
+            background-color: #1e3a8a;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+
+        .btn-payment:hover {
+            background-color: #1e40af;
+        }
+
+        .payment-methods {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .payment-method {
+            width: 50px;
+            height: 30px;
+            background-color: #f8fafc;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #0f172a;
+            color: white;
+            padding: 2rem 0;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .footer-column {
+            flex: 1;
+            min-width: 200px;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 1rem;
+            color: #4ade80;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-column ul li a {
+            color: #e2e8f0;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: #4ade80;
+        }
+
+        .privacy-bar {
+            text-align: center;
+            border-top: 1px solid #334155;
+            padding-top: 1.5rem;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+
+        .privacy-bar a {
+            color: #e2e8f0;
+            text-decoration: none;
+            margin: 0 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .privacy-bar a:hover {
+            color: #4ade80;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .payment-plans {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .payment-form-container {
+                flex-direction: column;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <a href="home.html" class="logo">Resume<span>Builder</span></a>
+            <nav>
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="#">Templates</a></li>
+                    <li><a href="#">Features</a></li>
+                    <li><a href="payment.html" class="nav-btn">Get Started</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Payment Section -->
+    <section class="payment-container">
+        <div class="container">
+            <div class="payment-header">
+                <h1>Choose Your Plan</h1>
+                <p>Select the plan that works best for your career needs.</p>
+            </div>
+
+            <!-- Plan Selection -->
+            <div class="payment-plans">
+                <div class="plan-card">
+                    <div class="plan-name">Basic</div>
+                    <div class="plan-price">$9.99 <span>/month</span></div>
+                    <ul class="plan-features">
+                        <li>5 Resume Templates</li>
+                        <li>PDF Downloads</li>
+                        <li>Basic Editor</li>
+                        <li>14-day Access</li>
+                    </ul>
+                </div>
+                
+                <div class="plan-card plan-selected">
+                    <div class="plan-name">Professional</div>
+                    <div class="plan-price">$14.99 <span>/month</span></div>
+                    <ul class="plan-features">
+                        <li>20 Premium Templates</li>
+                        <li>PDF & Word Downloads</li>
+                        <li>Advanced Editor</li>
+                        <li>Cover Letter Builder</li>
+                        <li>30-day Access</li>
+                    </ul>
+                </div>
+                
+                <div class="plan-card">
+                    <div class="plan-name">Premium</div>
+                    <div class="plan-price">$19.99 <span>/month</span></div>
+                    <ul class="plan-features">
+                        <li>All Templates</li>
+                        <li>All Download Formats</li>
+                        <li>Advanced Editor</li>
+                        <li>Cover Letter Builder</li>
+                        <li>LinkedIn Profile Help</li>
+                        <li>Unlimited Access</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Payment Form and Summary -->
+            <div class="payment-form-container">
+                <div class="payment-form">
+                    <h2 class="form-title">Payment Details</h2>
+                    
+                    <div class="secure-notice">
+                        <span class="secure-icon">🔒</span>
+                        <span>Your payment information is secured with SSL encryption</span>
+                    </div>
+                    
+                    <form>
+                        <div class="form-group">
+                            <label for="name">Name on Card</label>
+                            <input type="text" id="name" placeholder="John Smith">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="card">Card Number</label>
+                            <input type="text" id="card" placeholder="1234 5678 9012 3456">
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="expiry">Expiry Date</label>
+                                <input type="text" id="expiry" placeholder="MM/YY">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="cvv">CVV</label>
+                                <input type="text" id="cvv" placeholder="123">
+                            </div>
+                        </div>
+                        
+                        <h2 class="form-title">Billing Address</h2>
+                        
+                        <div class="form-group">
+                            <label for="address">Street Address</label>
+                            <input type="text" id="address" placeholder="123 Main St">
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="city">City</label>
+                                <input type="text" id="city" placeholder="New York">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="state">State/Province</label>
+                                <input type="text" id="state" placeholder="NY">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="zip">Zip/Postal Code</label>
+                                <input type="text" id="zip" placeholder="10001">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="country">Country</label>
+                                <select id="country">
+                                    <option value="us">United States</option>
+                                    <option value="ca">Canada</option>
+                                    <option value="uk">United Kingdom</option>
+                                    <option value="au">Australia</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="terms">
+                            <label for="terms">
+                                I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>. I understand that my personal data will be processed as described in the Privacy Policy.
+                            </label>
+                        </div>
+                        
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="newsletter">
+                            <label for="newsletter">
+                                I would like to receive resume tips, career advice, and special offers via email (optional).
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="btn-payment">Secure Checkout</button>
+                        
+                        <div class="payment-methods">
+                            <div class="payment-method">VISA</div>
+                            <div class="payment-method">MC</div>
+                            <div class="payment-method">AMEX</div>
+                            <div class="payment-method">PAYP</div>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="payment-summary">
+                    <h3 class="summary-title">Order Summary</h3>
+                    
+                    <div class="summary-item">
+                        <span>Professional Plan</span>
+                        <span>$14.99</span>
+                    </div>
+                    
+                    <div class="summary-item">
+                        <span>Monthly Billing</span>
+                        <span>$14.99/mo</span>
+                    </div>
+                    
+                    <div class="summary-total">
+                        <span>Total</span>
+                        <span>$14.99</span>
+                    </div>
+                    
+                    <p style="margin-top: 1rem; font-size: 0.9rem; color: #64748b;">
+                        You can cancel your subscription anytime from your account dashboard.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Resume Builder</h3>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">Resume Tips</a></li>
+                        <li><a href="#">Cover Letter Guide</a></li>
+                        <li><a href="#">Interview Preparation</a></li>
+                        <li><a href="#">Career Advice</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                        <li><a href="#">GDPR Compliance</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="privacy-bar">
+                <p>© 2025 ResumeBuilder. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Use</a></p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
